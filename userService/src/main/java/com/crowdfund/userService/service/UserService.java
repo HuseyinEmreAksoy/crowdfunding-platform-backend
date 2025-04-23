@@ -86,6 +86,7 @@ public class UserService {
                 .email(user.getEmail())
                 .username(user.getUsername())
                 .ethereumAddress(user.getEthereumAddress())
+                .privateKey(user.getPrivateKey())
                 .build();
     }
 

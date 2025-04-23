@@ -33,14 +33,15 @@ public class SecurityConfig {
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/api/users/**").permitAll();
+                    auth.requestMatchers("/api/users/**","/api/campaigns/**").permitAll();
                     auth.requestMatchers(
                             "/v3/api-docs/**",
                             "/swagger-ui/**",
                             "/swagger-ui.html",
                             "/v3/api-docs.yaml"
                     ).permitAll();
-                    auth.requestMatchers("/api/users/**").authenticated();
+                    auth.requestMatchers("/api/users/**", "/api/campaigns/**").authenticated();
+
                     auth.anyRequest().authenticated();
                 })
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
