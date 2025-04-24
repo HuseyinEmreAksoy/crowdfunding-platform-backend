@@ -1,5 +1,6 @@
 package com.crowdfund.userService.security;
 
+import com.crowdfund.userService.entity.User;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.MacAlgorithm;
 import org.springframework.stereotype.Component;
@@ -12,9 +13,10 @@ public class JwtUtil {
     private static final SecretKey SECRET_KEY = Jwts.SIG.HS256.key().build();
     private static final MacAlgorithm ALGORITHM = Jwts.SIG.HS256;
 
-    public String generateToken(String username) {
+    public String generateToken(User user) {
         return Jwts.builder()
-                .subject(username)
+                .subject(user.getUsername())
+                .claim("userId", user.getId())
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
                 .signWith(SECRET_KEY, ALGORITHM)
@@ -37,6 +39,15 @@ public class JwtUtil {
                 .parseSignedClaims(token)
                 .getPayload()
                 .getSubject();
+    }
+
+    public int extractUserId(String token) {
+        return Jwts.parser()
+                .verifyWith(SECRET_KEY)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload()
+                .get("userId", Integer.class);
     }
 
 }

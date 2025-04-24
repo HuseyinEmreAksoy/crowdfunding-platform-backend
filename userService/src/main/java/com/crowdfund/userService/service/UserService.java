@@ -59,7 +59,7 @@ public class UserService {
                 .build();
 
         userRepository.save(user);
-        String token = jwtUtil.generateToken(request.getUsername());
+        String token = jwtUtil.generateToken(user);
 
         return new AuthResponse(token);
     }
@@ -72,7 +72,7 @@ public class UserService {
             throw new RuntimeException("Invalid password");
         }
 
-        String token = jwtUtil.generateToken(request.getUsername());
+        String token = jwtUtil.generateToken(user);
 
         return new AuthResponse(token);
     }

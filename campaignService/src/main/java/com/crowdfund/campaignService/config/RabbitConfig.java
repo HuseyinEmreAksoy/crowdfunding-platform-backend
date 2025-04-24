@@ -11,4 +11,9 @@ public class RabbitConfig {
     public Queue campaignCreatedQueue() {
         return new Queue("campaign.created", false, false, true);
     }
+
+    @Bean
+    public Queue contributeQueue() {
+        return new Queue("contribution.made", false, false, true);
+    }
 }
